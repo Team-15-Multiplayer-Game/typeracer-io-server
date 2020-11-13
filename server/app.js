@@ -4,7 +4,7 @@ const cors = require('cors')
 const { urlencoded } = require('express')
 const app = express()
 const http = require('http').createServer(app)
-const port = process.env.PORT
+const port = process.env.PORT || 3000
 const io = require('socket.io')(http)
 const bcrypt = require('bcryptjs')
 
@@ -21,7 +21,6 @@ io.on('connection', socket => {
     console.log(username, 'ini username server')
     users.push(username)
     console.log(users)
-    io.emit('userLogin', users)
   })
 
   let rooms = {}
@@ -36,7 +35,8 @@ io.on('connection', socket => {
     room.players = []
     rooms[room.name] = room
     io.emit('roomCreated', room)
-    console.log(room)
+    console.log(room, 'ini room ')
+    io.emit('userLogin', users)
   })
 
   socket.on('fetchRooms', () => {
@@ -45,6 +45,6 @@ io.on('connection', socket => {
   })
 })
 
-http.listen(process.env.PORT, () => {
+http.listen(port, () => {
   console.log('listening on '+ port)
 })
