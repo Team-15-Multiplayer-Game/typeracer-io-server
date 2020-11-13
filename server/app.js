@@ -14,13 +14,13 @@ app.use(express.json())
 app.use(urlencoded({extended: true}))
 
 let users = []
+let rooms = []
 
 io.on('connection', socket => {
   console.log('A user connected')
   socket.on('userLogin', (username) => {
-    console.log(username, 'ini username server')
     users.push(username)
-    console.log(users)
+    socket.emit('fetchRooms', rooms)
   })
 
   socket.on('mouse_draw', (data) => {
@@ -40,15 +40,14 @@ io.on('connection', socket => {
     // console.log(bcrypt.hashSync(result.name, bcrypt.genSaltSync(2)))
     room.private = result.private
     room.players = []
-    rooms[room.name] = room
-    io.emit('roomCreated', room)
-    console.log(room, 'ini room ')
+    console.log(room)
+    rooms.push(room)
+    io.emit('roomCreated', rooms)
     io.emit('userLogin', users)
   })
 
   socket.on('fetchRooms', () => {
-    console.log('tersuruh')
-    io.emit('roomsFetched', rooms)
+    io.emit('fetchRooms', rooms)
   })
 })
 
