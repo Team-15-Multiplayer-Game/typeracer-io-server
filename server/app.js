@@ -4,7 +4,7 @@ const cors = require('cors')
 const { urlencoded } = require('express')
 const app = express()
 const http = require('http').createServer(app)
-const port = process.env.PORT || 3000
+const port = process.env.PORT 
 const io = require('socket.io')(http)
 const bcrypt = require('bcryptjs')
 
