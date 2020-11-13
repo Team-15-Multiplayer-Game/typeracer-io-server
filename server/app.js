@@ -23,6 +23,13 @@ io.on('connection', socket => {
     console.log(users)
   })
 
+  socket.on('mouse_draw', (data) => {
+    socket.broadcast.emit('mouse_draw', data)
+  })
+
+  socket.on('erase_draw', (key) => {
+    socket.broadcast.emit('erase_draw', key)
+  })
   let rooms = {}
   
 
