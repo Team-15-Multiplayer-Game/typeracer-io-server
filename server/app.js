@@ -19,7 +19,8 @@ io.on('connection', socket => {
   socket.on('userLogin', (username) => {
     console.log(username, 'ini username server')
     users.push(username)
-    
+    console.log(users)
+    io.emit('userLogin', users)
   })
 })
 
